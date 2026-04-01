@@ -6,6 +6,16 @@
 </script>
 
 {#if data.client}
+
+<nav style="padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+    {#if content.logo_url}
+        <img src={content.logo_url} alt="Logo" style="height: 50px;" />
+    {:else}
+        <span style="font-weight: bold;">{data.client.client_name}</span>
+    {/if}
+</nav>
+
+
 	<div style="border-top: 10px solid {data.client.primary_color}; font-family: sans-serif; padding: 0;">
 		
 		<section style="padding: 60px 20px; text-align: center; background-color: #f9f9f9;">
