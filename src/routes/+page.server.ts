@@ -1,7 +1,25 @@
-export const load = ({ locals }) => {
-    console.log("Subdomain détecté :", locals.subdomain);
-	// On récupère le sous-domaine que le Hook a extrait
+import { supabase } from '$lib/supabase';
+
+export const load = async ({ locals }) => {
+	const slug = locals.subdomain;
+
+	if (!slug) {
+		return { client: null };
+	}
+
+	// On va chercher les infos du client dans Supabase
+	const { data: funnel, error } = await supabase
+		.from('funnels')
+		.select('*')
+		.eq('slug', slug)
+		.single();
+
+	if (error || !funnel) {
+		console.error("Erreur Supabase:", error);
+		return { client: null, error: "Client non trouvé" };
+	}
+
 	return {
-		clientName: locals.subdomain || "Aucun client détecté"
+		client: funnel
 	};
 };
